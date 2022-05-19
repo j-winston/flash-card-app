@@ -28,8 +28,10 @@ def choose_card():
 
 def display_question():
     card = choose_card()
-    flash_word = card[0][0]
-    canvas.create_text(400, 263, text=flash_word, font=FLASH_FONT, tags="card_text")
+    question = card[0][0]
+    canvas.itemconfig(flash_item, text=question, fill="black")
+    canvas.itemconfig(title_item, text="French", fill="black")
+
     root.after(3000, canvas.delete, "card_text")
     root.after(3000, display_answer, card)
 
@@ -37,8 +39,11 @@ def display_question():
 def display_answer(current_card):
     # display the answer side of the card
     answer = current_card[0][1]
+
     canvas.itemconfig(image_item, image=card_back_img)
-    canvas.create_text(400, 263, text=answer, fill="white", font=FLASH_FONT,)
+    canvas.itemconfig(title_item, text="English", fill="white")
+    canvas.itemconfig(flash_item, text=answer, fill="white")
+
 
 
 def wrong():
@@ -76,10 +81,8 @@ card_face_img = PhotoImage(file="./images/card_front.png")
 card_back_img = PhotoImage(file="./images/card_back.png")
 
 image_item = canvas.create_image(0, 0, image=card_face_img, anchor=NW)
-canvas.create_text(400, 150, text=LANGUAGE, font=TITLE_FONT)
-
-title_text = canvas.create_text(400, 150, text=LANGUAGE, font=TITLE_FONT, tags="language")
-
+title_item = canvas.create_text(400, 150, text=LANGUAGE, font=TITLE_FONT)
+flash_item = canvas.create_text(400, 263, text="", font=FLASH_FONT)
 # SETUP CARD
 
 # MAIN LOOP
@@ -87,6 +90,6 @@ title_text = canvas.create_text(400, 150, text=LANGUAGE, font=TITLE_FONT, tags="
 
 display_question()
 
-
+canvas.delete("language_tag")
 
 root.mainloop()
